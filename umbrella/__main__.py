@@ -104,8 +104,6 @@ def main() -> int:
             m.update()
             m.snapshot()
 
-            finished_repos.append(r)
-
             # search for submodules
             if args.recursive:
                 for sm in m.submodules():
@@ -118,6 +116,8 @@ def main() -> int:
                         logger.info(f"Submodule {sm} appended to the queue")
         except git.exc.GitCommandError as ex:
             logger.exception(f"{r}: `{' '.join(ex.command)}` failed with error {ex.stderr}", stack_info=False)
+        finally:
+            finished_repos.append(r)
 
 
 if __name__ == "__main__":
