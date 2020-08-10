@@ -3,13 +3,14 @@ global:
   
   authentication: # note: they are matched from top to bottom
     - matches: 
-        - '^https://github.com/' # doesn't work for now
+        # - '^https://github.com/' # doesn't work for now
         - '^https://api.github.com/'
       username: 'username'
       password: 'password-or-apikey'
-    - matches:
-        - '^git@github.com:' # doesn't work for now
-      ssh_key: '/home/james/.ssh/id_rsa'
+    # doesn't work for now
+    # - matches:
+    #     - '^git@github.com:'
+    #   ssh_key: '/home/james/.ssh/id_rsa'
   
   directories:
     - provider: 'null' # does not do any processing
