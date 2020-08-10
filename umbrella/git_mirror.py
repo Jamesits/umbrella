@@ -62,7 +62,7 @@ class GitMirroredRepo:
         Initialize SQLite3 database for storing references. Always run after __init_dir()
         :return:
         """
-        logger.info("Initializing database connection...")
+        logger.debug("Initializing database connection...")
         self.db_connection = sqlite3.connect(self.sqlite3_db_file)
         self.db_cursor = self.db_connection.cursor()
 
@@ -124,7 +124,7 @@ class GitMirroredRepo:
 
         if os.path.isfile(self.initialized_file):
             # the repo is initialized, read info from it
-            logger.info(f"Reading Git repo at {self.git_directory}...")
+            logger.debug(f"Reading Git repo at {self.git_directory}...")
             self.repo = git.Repo(self.git_directory)
             assert self.repo
             assert self.repo.remote("origin").exists()
@@ -133,7 +133,7 @@ class GitMirroredRepo:
             else:
                 assert self.upstream_url == self.repo.remote("origin").url
         else:
-            logger.info(f"Initializing Git repo at {self.git_directory}...")
+            logger.debug(f"Initializing Git repo at {self.git_directory}...")
             # if a previous attempt failed, we have to remove the dead
             if os.path.exists(self.git_directory):
                 shutil.rmtree(self.git_directory)
@@ -191,7 +191,7 @@ class GitMirroredRepo:
         for f in os.listdir(self.temp_directory):
             file_full_path = os.path.join(self.temp_directory, f)
             if os.path.splitext(f)[-1] == ".pack":
-                logger.info(f"Unpacking {f}...")
+                logger.debug(f"Unpacking {f}...")
                 with open(file_full_path, 'rb') as f_stream:
                     self.repo.git.unpack_objects("-r", "--strict", istream=f_stream)
                 pack_count += 1
@@ -220,12 +220,12 @@ class GitMirroredRepo:
 
         # Update the mirror
         # https://stackoverflow.com/a/6151419/2646069
-        logger.info(f"Fetching changes from {url_hide_sensitive(self.upstream_url)}...")
+        logger.debug(f"Fetching changes from {url_hide_sensitive(self.upstream_url)}...")
         self.repo.remote("origin").update(env=self.git_environment)
 
         # GitPython have no direct support for Git LFS: https://github.com/gitpython-developers/GitPython/issues/739
         # https://help.github.com/en/github/creating-cloning-and-archiving-repositories/duplicating-a-repository
-        logger.info(f"Fetching LFS objects from {url_hide_sensitive(self.upstream_url)}...")
+        logger.debug(f"Fetching LFS objects from {url_hide_sensitive(self.upstream_url)}...")
         self.repo.git.lfs('fetch', '--all')
 
     @staticmethod
@@ -270,7 +270,7 @@ class GitMirroredRepo:
         for row in self.db_cursor:
             object_count += 1
             if object_count % 100 == 0:
-                logger.info(f"Calculating object: {object_count}")
+                logger.debug(f"Calculating object: {object_count}")
             sha1, t, s = row
             if t is None:
                 t = self.__get_git_object_type(sha1)
@@ -278,13 +278,13 @@ class GitMirroredRepo:
                 s = self.__get_git_object_size(sha1)
             updated_rows.append((t, s, sha1))
 
-        logger.info("Writing object metadata...")
+        logger.debug("Writing object metadata...")
         self.db_cursor.executemany("""UPDATE "objects_sha1" 
             SET "type" = ?, "size" = ?
             WHERE "sha1" = ?;
         """, updated_rows)
         self.db_connection.commit()
-        logger.info(f"{object_count} objects documented.")
+        logger.debug(f"{object_count} objects documented.")
 
     def snapshot(self) -> None:
         """
@@ -317,7 +317,7 @@ class GitMirroredRepo:
                         INSERT INTO "{ref_table_name}" ("path", "commit") VALUES (?, ?);
                     """, (str(head.path), str(head.commit)))
             head_count += 1
-        logger.info(f"{head_count} references saved.")
+        logger.debug(f"{head_count} references saved.")
 
         # save config
         with open(os.path.join(self.git_directory, "config"), "r") as f:
@@ -331,7 +331,7 @@ class GitMirroredRepo:
         for sha1_hash in self.repo.odb.sha_iter():
             object_count += 1
             # if object_count % 100 == 0:
-            #     logger.info(f"Scanning object: {object_count}")
+            #     logger.debug(f"Scanning object: {object_count}")
             try:
                 self.db_cursor.execute(r"""
                     INSERT INTO "objects_sha1" ("sha1", "first_appearance_in_snapshots") VALUES (?, ?);
@@ -340,7 +340,7 @@ class GitMirroredRepo:
             except sqlite3.IntegrityError:
                 pass
 
-        logger.info(f"{new_object_count}/{object_count} new objects saved.")
+        logger.debug(f"{new_object_count}/{object_count} new objects saved.")
 
         # commit
         self.db_connection.commit()

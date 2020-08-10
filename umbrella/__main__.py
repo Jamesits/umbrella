@@ -82,7 +82,7 @@ def main() -> int:
     finished_repos = []
     while len(repos) > 0:
         r = repos.pop(0)
-        logger.info(f"{len(finished_repos) + 1}/{len(finished_repos) + len(repos) + 1} backing up {r}...")
+        logger.info(f"{len(finished_repos) + 1}/{len(finished_repos) + len(repos) + 1} backing up {r} ...")
 
         kwargs = {
             "storage_directory": args.destination if r == args.git_repo else re.subn(r"[/:\\]", "_", r)[0],
@@ -116,9 +116,9 @@ def main() -> int:
                     else:
                         repos.append(sm)
                         logger.info(f"Submodule {sm} appended to the queue")
-        except git.exc.GitCommandError:
-            logger.exception("Git command failure", stack_info=True)
-            
+        except git.exc.GitCommandError as ex:
+            logger.exception(f"{r}: `{' '.join(ex.command)}` failed with error {ex.stderr}", stack_info=False)
+
 
 if __name__ == "__main__":
     init_logging()
