@@ -20,6 +20,6 @@ global:
     - provider: 'GitHub'
       api_endpoint: 'https://api.github.com'
       searches:
-        - "/orgs/NekomimiRouter/repos?type=all" # all the repos of an organization
-        - "/users/Jamesits?type=all" # all the repos of an user
+        - "/orgs/empty-repo/repos?type=all" # all the repos of an organization
+        - "/users/octocat?type=all" # all the repos of an user
         - "/user/repos?type=all" # all the repos that I have explicit permission to
