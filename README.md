@@ -26,7 +26,7 @@ Back up a batch of repos:
 
 ### Known Issues
 
-* Integrated auth doesn't work, please log in yourself on the backup computer
+* Integrated auth doesn't work for git (but works for providers), please log in yourself on the backup computer
 
 ### Snapshots and Incremental Backups
 
