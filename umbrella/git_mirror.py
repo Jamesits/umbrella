@@ -185,7 +185,7 @@ class GitMirroredRepo:
         pack_count = 0
         for pack_file in os.listdir(packs_dir):
             src = os.path.join(packs_dir, pack_file)
-            os.chmod(src, stat.S_IWRITE)
+            os.chmod(src, stat.S_IREAD or stat.S_IWRITE)
             shutil.move(src, self.temp_directory)
         for f in os.listdir(self.temp_directory):
             file_full_path = os.path.join(self.temp_directory, f)
@@ -194,7 +194,7 @@ class GitMirroredRepo:
                 with open(file_full_path, 'rb') as f_stream:
                     self.repo.git.unpack_objects("-r", "--strict", istream=f_stream)
                 pack_count += 1
-            os.chmod(file_full_path, stat.S_IWRITE)
+            os.chmod(file_full_path, stat.S_IREAD or stat.S_IWRITE)
             os.remove(file_full_path)
 
         shutil.rmtree(self.temp_directory, ignore_errors=True)
