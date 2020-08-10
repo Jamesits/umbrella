@@ -12,10 +12,17 @@ Umbrella creates local backups for all the Git repos you cared about. An ex-empl
 
 ## Usage
 
+Back up a single repo:
+
 ```shell
 python3 setup.py install
 umbrella https://github.com/Jamesits/umbrella.git /tmp/umbrella
 ```
+
+Back up a batch of repos:
+
+1. Create a config file: [config.yaml](doc/example/config.yaml)
+1. `umbrella --config config.yaml`
 
 ### Snapshots and Incremental Backups
 
@@ -23,13 +30,7 @@ Umbrella does not offer any form of snapshot or incremental backup because I don
 
 ## Development Notes
 
-### Development
-
 ```shell
 pipenv shell
 python3 -m umbrella
 ```
-
-### TODO
-
-* submodules

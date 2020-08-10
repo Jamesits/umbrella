@@ -38,3 +38,17 @@ def get_timestamp() -> int:
 
 def get_os_string() -> str:
     return platform.platform()
+
+
+def dict_search(d: typing.Dict[typing.Any, typing.Any], *searches) -> typing.Any:
+    if not isinstance(d, dict): return None
+    
+    searches = list(searches)
+    while len(searches) > 0:
+        s = searches.pop(0)
+        if s in d.keys():
+            d = d[s]
+        else:
+            return None
+
+    return d

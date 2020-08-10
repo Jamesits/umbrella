@@ -87,6 +87,11 @@ class GitMirroredRepo:
                 "os"	TEXT
         );""")
 
+        self.db_cursor.execute(r"""CREATE TABLE IF NOT EXISTS "configs" (
+                "snapshot_id"	INTEGER PRIMARY KEY,
+                "content"	BLOB
+        );""")
+
         # the id=0 record denotes the information when the database is initialized
         # it is not a real snapshot
         self.db_cursor.execute(r"""
@@ -313,6 +318,12 @@ class GitMirroredRepo:
             head_count += 1
         logger.info(f"{head_count} references saved.")
 
+        # save config
+        with open(os.path.join(self.git_directory, "config"), "r") as f:
+            self.db_cursor.execute(r"""
+                INSERT INTO "configs" ("snapshot_id", "content") VALUES (?, ?);
+            """, (snapshot_id, f.read()))
+
         # save objects
         object_count = 0
         new_object_count = 0
@@ -333,3 +344,5 @@ class GitMirroredRepo:
         # commit
         self.db_connection.commit()
 
+    def submodules(self):
+        return [x.url for x in self.repo.submodules]

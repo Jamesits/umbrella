@@ -8,6 +8,7 @@ verify_ssl = true
 [packages]
 pyyaml = "*"
 gitpython = "*"
+requests = "*"
 
 [requires]
 python_version = "3.7"

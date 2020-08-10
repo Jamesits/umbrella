@@ -14,7 +14,7 @@ setup(
    author_email='github@public.swineson.me',
    url="https://github.com/Jamesits/Umbrella",
    packages=['umbrella'],  #same as name
-   install_requires=[],
+   install_requires=['GitPython', 'requests'],
    entry_points = {
       'console_scripts': [
           'umbrella=umbrella:main'
