@@ -2,7 +2,7 @@
 
 > An umbrella protects you when the cloud falls into raindrops.
 
-Umbrella creates local backups for all the Git repos you cared about. An ex-employee deletes all the branches? Service providers go down? Repositories being taken down by DMCA? Umbrella gets you covered.
+Umbrella creates local backups for all the Git repos you cares about. An ex-employee deletes all the branches? Service providers go down? Repositories being taken down by DMCA? Umbrella gets you covered.
 
 ## Requirements
 
