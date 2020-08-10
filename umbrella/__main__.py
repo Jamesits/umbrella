@@ -9,11 +9,14 @@ logger = logging.getLogger(__name__)
 
 
 def main() -> int:
-    logger.info("Starting")
+    # logger.info("Starting")
     
     parser = argparse.ArgumentParser(description="Backup your Git repo.")
     parser.add_argument('git_repo', type=str, help="URL to the source Git repo that you want to archive")
     parser.add_argument('destination', type=str, nargs='?', default=".", help="Backup target directory")
+    parser.add_argument('--username', type=str, nargs='?', default=None, help="Git username")
+    parser.add_argument('--password', type=str, nargs='?', default=None, help="Git password")
+    parser.add_argument('--key', type=str, nargs='?', default=None, help="SSH private key file")
     args = parser.parse_args()
 
     # logger.debug("Reading config file")
@@ -29,7 +32,13 @@ def main() -> int:
     #
     # print(a)
 
-    repo = GitMirroredRepo(args.destination, args.git_repo)
+    repo = GitMirroredRepo(
+        storage_directory=args.destination, 
+        upstream_url=args.git_repo,
+        git_username=args.username,
+        git_password=args.password,
+        git_ssh_key_path=args.key,
+    )
     repo.update()
     repo.snapshot()
 
