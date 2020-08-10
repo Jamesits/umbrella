@@ -10,6 +10,7 @@ from .auth import AuthRuleMatcher
 from .dir.null import NullDirProvider
 from .dir.github import GitHubDirProvider
 import re
+import git
 
 logger = logging.getLogger(__name__)
 
@@ -98,23 +99,26 @@ def main() -> int:
         else:
             logger.error(f"Unsupported auth strategy type {auth_strategy['type']}")
 
-        m = GitMirroredRepo(**kwargs)
-        m.update()
-        m.snapshot()
+        try:
+            m = GitMirroredRepo(**kwargs)
+            m.update()
+            m.snapshot()
 
-        finished_repos.append(r)
+            finished_repos.append(r)
 
-        # search for submodules
-        if args.recursive:
-            for sm in m.submodules():
-                if sm in repos:
-                    logger.debug(f"Submodule {sm} already in queue")
-                elif sm in finished_repos:
-                    logger.debug(f"Submodule {sm} already backed up")
-                else:
-                    repos.append(sm)
-                    logger.info(f"Submodule {sm} appended to the queue")
-
+            # search for submodules
+            if args.recursive:
+                for sm in m.submodules():
+                    if sm in repos:
+                        logger.debug(f"Submodule {sm} already in queue")
+                    elif sm in finished_repos:
+                        logger.debug(f"Submodule {sm} already backed up")
+                    else:
+                        repos.append(sm)
+                        logger.info(f"Submodule {sm} appended to the queue")
+        except git.exc.GitCommandError:
+            logger.exception("Git command failure", stack_info=True)
+            
 
 if __name__ == "__main__":
     init_logging()
