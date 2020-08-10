@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_namespace_packages
 
 with open("README.md", 'r') as f:
     long_description = f.read()
@@ -13,8 +13,8 @@ setup(
    author='James Swineson',
    author_email='github@public.swineson.me',
    url="https://github.com/Jamesits/Umbrella",
-   packages=['umbrella'],  #same as name
-   install_requires=['GitPython', 'requests'],
+   packages=find_namespace_packages(), 
+   install_requires=['GitPython', 'requests', 'pyyaml'],
    entry_points = {
       'console_scripts': [
           'umbrella=umbrella:main'
