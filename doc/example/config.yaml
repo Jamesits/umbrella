@@ -1,15 +1,16 @@
 global:
     backup_destination_root: "/home/james/git_backup" # where to put all the backup files
   
-  authentication: # note: they are matched from top to bottom
-    - matches: 
-        - '^https://github.com/'
-        - '^https://api.github.com/'
-      username: 'username'
-      password: 'password-or-apikey'
-    - matches:
-        - '^git@github.com:'
-      ssh_key: '/home/james/.ssh/id_rsa'
+    # doesn't work for now
+#   authentication: # note: they are matched from top to bottom
+#     - matches: 
+#         - '^https://github.com/'
+#         - '^https://api.github.com/'
+#       username: 'username'
+#       password: 'password-or-apikey'
+#     - matches:
+#         - '^git@github.com:'
+#       ssh_key: '/home/james/.ssh/id_rsa'
   
   directories:
     - provider: 'null' # does not do any processing

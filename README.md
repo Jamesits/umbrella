@@ -6,7 +6,7 @@ Umbrella creates local backups for all the Git repos you cared about. An ex-empl
 
 ## Requirements
 
-* *nix operating system
+* Windows or \*nix operating system
 * `git` and `git-lfs` installed
 * Python 3.8 or later
 
@@ -23,6 +23,10 @@ Back up a batch of repos:
 
 1. Create a config file: [config.yaml](doc/example/config.yaml)
 1. `umbrella --config config.yaml`
+
+### Known Issues
+
+* Integrated auth doesn't work, please log in yourself on the backup computer
 
 ### Snapshots and Incremental Backups
 
