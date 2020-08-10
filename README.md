@@ -28,7 +28,7 @@ Back up a batch of repos:
 
 * Integrated auth doesn't work for git (but works for providers), please log in yourself on the backup computer
 * Restore is not done yet; you might need to manually restore for now (`git clone path/to/your/backup/git`)
-* Git will stop to ask for username/password or SSH host key trust
+* Git will pause to ask for username/password or SSH host key trust
 
 ### Incremental Backups
 
