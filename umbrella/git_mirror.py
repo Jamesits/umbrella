@@ -177,6 +177,7 @@ class GitMirroredRepo:
         Unpack all git packs into objects
         :return: None
         """
+        shutil.rmtree(self.temp_directory, ignore_errors=True)
         os.makedirs(self.temp_directory, exist_ok=True)
 
         # unpack all the packs
