@@ -27,7 +27,7 @@ Back up a batch of repos:
 ### Known Issues
 
 * Integrated auth doesn't work for git (but works for providers), please log in yourself on the backup computer
-* Restore is not done yet; you might need to manually restore for now
+* Restore is not done yet; you might need to manually restore for now (`git clone path/to/your/backup/git`)
 
 ### Incremental Backups
 
