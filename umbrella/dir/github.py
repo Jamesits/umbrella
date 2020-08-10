@@ -56,6 +56,8 @@ class GitHubDirProvider(DirProvider):
                     for repo in r.json():
                         if "clone_url" in repo:
                             ret.append(repo["clone_url"])
+                        if "has_wiki" in repo and repo['has_wiki'] == True:
+                            ret.append(repo['html_url'] + '.wiki.git')
 
                     if len(r.json()) < per_page:
                         break
