@@ -27,10 +27,11 @@ Back up a batch of repos:
 ### Known Issues
 
 * Integrated auth doesn't work for git (but works for providers), please log in yourself on the backup computer
+* Restore is not done yet; you might need to manually restore for now
 
-### Snapshots and Incremental Backups
+### Incremental Backups
 
-Umbrella does not offer any form of snapshot or incremental backup because I don't want to rebuild square wheels. You can use the functionalities provided by your filesystem (e.g. [ZFS](https://zfsonlinux.org/) or [Btrfs](https://btrfs.wiki.kernel.org/index.php/Main_Page)) or 3rd party backup solutions (e.g. [Borg](https://borgbackup.readthedocs.io/) or [Duplicati](https://www.duplicati.com/)) to do this.
+Umbrella does not offer any form of incremental backup because I don't want to rebuild square wheels. You can use the functionalities provided by your filesystem (e.g. [ZFS](https://zfsonlinux.org/) or [Btrfs](https://btrfs.wiki.kernel.org/index.php/Main_Page)) or 3rd party backup solutions (e.g. [Borg](https://borgbackup.readthedocs.io/) or [Duplicati](https://www.duplicati.com/)) to do this.
 
 ## Development Notes
 
