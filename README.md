@@ -4,8 +4,6 @@
 
 Umbrella creates local backups for all the Git repos you cared about. An ex-employee deletes all the branches? Service providers go down? Repositories being taken down by DMCA? Umbrella gets you covered.
 
-**Note: this piece of software is in early development.**
-
 ## Requirements
 
 * *nix operating system
@@ -14,12 +12,24 @@ Umbrella creates local backups for all the Git repos you cared about. An ex-empl
 
 ## Usage
 
-TBD.
+```shell
+python3 setup.py install
+umbrella https://github.com/Jamesits/umbrella.git /tmp/umbrella
+```
 
-## Snapshots and Incremental Backups
+### Snapshots and Incremental Backups
 
 Umbrella does not offer any form of snapshot or incremental backup because I don't want to rebuild square wheels. You can use the functionalities provided by your filesystem (e.g. [ZFS](https://zfsonlinux.org/) or [Btrfs](https://btrfs.wiki.kernel.org/index.php/Main_Page)) or 3rd party backup solutions (e.g. [Borg](https://borgbackup.readthedocs.io/) or [Duplicati](https://www.duplicati.com/)) to do this.
 
-## TODO:
+## Development Notes
+
+### Development
+
+```shell
+pipenv shell
+python3 -m umbrella
+```
+
+### TODO
 
 * submodules

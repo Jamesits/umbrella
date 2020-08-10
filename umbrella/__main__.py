@@ -1,14 +1,20 @@
 import logging
 from .logger_config import init_logging
-import yaml
+#import yaml
 import sys
 from .git_mirror import GitMirroredRepo
+import argparse
 
 logger = logging.getLogger(__name__)
 
 
 def main() -> int:
     logger.info("Starting")
+    
+    parser = argparse.ArgumentParser(description="Backup your Git repo.")
+    parser.add_argument('git_repo', type=str, help="URL to the source Git repo that you want to archive")
+    parser.add_argument('destination', type=str, nargs='?', default=".", help="Backup target directory")
+    args = parser.parse_args()
 
     # logger.debug("Reading config file")
     # try:
@@ -23,7 +29,7 @@ def main() -> int:
     #
     # print(a)
 
-    repo = GitMirroredRepo(r"A:\Umbrella_test\systemd-named-netns", "https://github.com/Jamesits/systemd-named-netns.git")
+    repo = GitMirroredRepo(args.destination, args.git_repo)
     repo.update()
     repo.snapshot()
 
